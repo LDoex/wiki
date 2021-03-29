@@ -1,5 +1,6 @@
 package com.oyyk.wiki.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@ComponentScan({"com.oyyk","com.test"}) /**扫描多个包的写法*/
 @ComponentScan("com.oyyk")
 @SpringBootApplication
+@MapperScan("com.oyyk.wiki.mapper")
 public class WikiApplication {
     private static final Logger LOG = LoggerFactory.getLogger(WikiApplication.class);
 
