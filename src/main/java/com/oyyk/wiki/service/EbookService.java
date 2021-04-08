@@ -5,7 +5,7 @@ import com.oyyk.wiki.domain.EbookExample;
 import com.oyyk.wiki.mapper.EbookMapper;
 import com.oyyk.wiki.req.EbookReq;
 import com.oyyk.wiki.resp.EbookResp;
-import org.springframework.beans.BeanUtils;
+import com.oyyk.wiki.util.CopyUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,12 +24,16 @@ public class EbookService {
         criteria.andNameLike("%"+req.getName()+"%");
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
         List<EbookResp> respList = new ArrayList<>();
-        for(Ebook ebook: ebookList){
-            EbookResp ebookResp = new EbookResp();
-            BeanUtils.copyProperties(ebook, ebookResp);
-            respList.add(ebookResp);
-        }
-        return respList;
+//        for(Ebook ebook: ebookList){
+////            EbookResp ebookResp = new EbookResp();
+////            BeanUtils.copyProperties(ebook, ebookResp);
+        //对象复制
+//            EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
+//            respList.add(ebookResp);
+//        }
+        //列表复制
+        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
+        return list;
     }
 
 }
