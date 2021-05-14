@@ -3,7 +3,6 @@
     <a-layout-sider width="200" style="background: #ffffff">
     <a-menu
         mode="inline"
-        v-model:selectedKeys="selectedKeys2"
         v-model:openKeys="openKeys"
         :style="{ height: '100%', borderRight: 0 }"
     >
@@ -55,8 +54,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'Home',
+  setup() {
+    console.log("setup");
+    axios.get("http://localhost:8880/ebook/list?name=Spring").then((response)=>{
+      console.log(response);
+    })
+  }
 });
 </script>
