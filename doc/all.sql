@@ -41,4 +41,4 @@ create table `demo`(
 
 insert into `demo` (id, name) values (1, '测试');
 
-UPDATE wikidev.ebook item SET item.category1_id = 1, item.category2_id = 2, item.doc_count = 1, item.view_count = 2, item.vote_count = 3 WHERE item.id = 2
+UPDATE wikidev.ebook item SET item.category1_id = 1, item.category2_id = 2, item.doc_count = 1, item.view_count = 2, item.vote_count = 111 WHERE item.id = 1
