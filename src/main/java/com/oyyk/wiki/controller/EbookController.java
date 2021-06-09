@@ -26,4 +26,12 @@ public class EbookController {
         resp.setContent(list);
         return resp;
     }
+
+    @GetMapping("/home")
+    public CommonResp home(EbookReq req){
+        CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
+        PageResp<EbookResp> list = ebookService.home(req);
+        resp.setContent(list);
+        return resp;
+    }
 }

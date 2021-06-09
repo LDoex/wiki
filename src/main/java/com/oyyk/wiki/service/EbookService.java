@@ -57,4 +57,35 @@ public class EbookService {
         return pageResp;
     }
 
+    public PageResp<EbookResp> home(EbookReq req) {
+
+        EbookExample ebookExample = new EbookExample();
+        EbookExample.Criteria criteria = ebookExample.createCriteria();
+        //动态sql，name不为空才进行模糊匹配
+        if (!ObjectUtils.isEmpty(req.getName())) {
+            criteria.andNameLike("%" + req.getName() + "%");
+        }
+        PageHelper.startPage(req.getPage(),req.getSize());
+        List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
+
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
+        LOG.info("总行数：{}", pageInfo.getTotal());
+        LOG.info("总页数：{}", pageInfo.getPages());
+        List<EbookResp> respList = new ArrayList<>();
+//        for(Ebook ebook: ebookList){
+////            EbookResp ebookResp = new EbookResp();
+////            BeanUtils.copyProperties(ebook, ebookResp);
+        //对象复制
+//            EbookResp ebookResp = CopyUtil.copy(ebook, EbookResp.class);
+//            respList.add(ebookResp);
+//        }
+
+        //列表复制
+        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
+
+        PageResp<EbookResp> pageResp = new PageResp();
+        pageResp.setList(list);
+        return pageResp;
+    }
+
 }
