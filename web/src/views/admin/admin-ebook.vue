@@ -14,7 +14,7 @@
           :row-key="record => record.id"
           :data-source="ebooks"
           :pagination="pagination"
-          :loading="Loading"
+          :loading="loading"
           @change="handleTableChange">
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar" />
@@ -80,7 +80,7 @@ export default defineComponent({
     const ebooks = ref();
     const pagination = ref({
       current: 1,
-      pageSize: 4,
+      pageSize: 10001,
       total: 0
     });
     const loading = ref(false);
@@ -136,11 +136,16 @@ export default defineComponent({
       }).then((response) => {
         loading.value = false;
         const data = response.data;
-        ebooks.value = data.content.list;
 
-        // 重置分页按钮
-        pagination.value.current = params.page;
-        pagination.value.total = data.content.total;
+        if(data.success){
+          ebooks.value = data.content.list;
+
+          // 重置分页按钮
+          pagination.value.current = params.page;
+          pagination.value.total = data.content.total;
+        } else{
+          message.error(data.message);
+        }
       });
     };
 
