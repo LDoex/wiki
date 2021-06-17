@@ -93,6 +93,7 @@
 import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
 import {message} from 'ant-design-vue';
 import axios from 'axios';
+import {Tool} from "@/util/tool";
 
 
 export default defineComponent({
@@ -187,6 +188,7 @@ export default defineComponent({
 
     // ------表单-------
     const ebook = ref({});
+    let isAdd = false;
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const handleModalOk = ()=>{
@@ -197,7 +199,11 @@ export default defineComponent({
         const data = response.data; //data = commonResp
         if(data.success){
           modalVisible.value = false;
-          message.success('新增成功');
+          if(isAdd===true){
+            message.success('新增成功');
+          } else{
+            message.success('编辑成功');
+          }
 
           //重新加载列表
           handleQuery({
@@ -216,7 +222,8 @@ export default defineComponent({
      */
     const edit = (record: any)=>{
       modalVisible.value = true;
-      ebook.value = record
+      ebook.value = Tool.copy(record);
+      isAdd = false;
     };
 
     /**
@@ -226,6 +233,7 @@ export default defineComponent({
     const add = ()=>{
       modalVisible.value = true;
       ebook.value = {};
+      isAdd = true;
     };
 
     const handleDelete = (id: number)=>{
