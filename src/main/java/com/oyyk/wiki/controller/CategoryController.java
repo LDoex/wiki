@@ -3,14 +3,15 @@ package com.oyyk.wiki.controller;
 
 import com.oyyk.wiki.req.CategoryQueryReq;
 import com.oyyk.wiki.req.CategorySaveReq;
-import com.oyyk.wiki.resp.CommonResp;
 import com.oyyk.wiki.resp.CategoryQueryResp;
+import com.oyyk.wiki.resp.CommonResp;
 import com.oyyk.wiki.resp.PageResp;
 import com.oyyk.wiki.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -23,6 +24,14 @@ public class CategoryController {
     public CommonResp list(@Valid CategoryQueryReq req){
         CommonResp<PageResp<CategoryQueryResp>> resp = new CommonResp<>();
         PageResp<CategoryQueryResp> list = categoryService.list(req);
+        resp.setContent(list);
+        return resp;
+    }
+
+    @GetMapping("/all")
+    public CommonResp all(){
+        CommonResp<List<CategoryQueryResp>> resp = new CommonResp<>();
+        List<CategoryQueryResp> list = categoryService.all();
         resp.setContent(list);
         return resp;
     }
