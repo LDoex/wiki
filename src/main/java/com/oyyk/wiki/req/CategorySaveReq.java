@@ -1,6 +1,7 @@
 package com.oyyk.wiki.req;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class CategorySaveReq {
     private Long id;
@@ -10,7 +11,7 @@ public class CategorySaveReq {
     @NotBlank(message = "名称不能为空")
     private String name;
 
-    @NotBlank(message = "排序不能为空")
+    @NotNull(message = "顺序不能为空")
     private Integer sort;
 
     public Long getId() {
