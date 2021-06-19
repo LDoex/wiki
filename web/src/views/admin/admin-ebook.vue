@@ -73,11 +73,11 @@
         <a-form-item label="名称">
           <a-input v-model:value="ebook.name" />
         </a-form-item>
-        <a-form-item label="分类一">
-          <a-input v-model:value="ebook.category1Id" />
-        </a-form-item>
-        <a-form-item label="分类二">
-          <a-input v-model:value="ebook.category2Id" />
+        <a-form-item label="分类" placeholder="请选择分类">
+          <a-cascader
+              v-model:value="categoryIds"
+              :field-names="{label: 'name', value: 'id', children: 'children'}"
+              :options="level1" />
         </a-form-item>
         <a-form-item label="描述">
           <a-input v-model:value="ebook.description" />
@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import {message} from 'ant-design-vue';
 import axios from 'axios';
 import {Tool} from "@/util/tool";
@@ -187,12 +187,18 @@ export default defineComponent({
 
 
     // ------表单-------
-    const ebook = ref({});
+    /**
+     * 数组 [100, 101]对应：前端开发/vue
+     **/
+    const categoryIds = ref();
+    const ebook = ref();
     let isAdd = false;
     const modalVisible = ref(false);
     const modalLoading = ref(false);
     const handleModalOk = ()=>{
       modalLoading.value = true;
+      ebook.value.category1Id = categoryIds.value[0];
+      ebook.value.category2Id = categoryIds.value[1];
 
       axios.post("/ebook/save", ebook.value).then((response) => {
         modalLoading.value = false;
@@ -223,6 +229,7 @@ export default defineComponent({
     const edit = (record: any)=>{
       modalVisible.value = true;
       ebook.value = Tool.copy(record);
+      categoryIds.value = [ebook.value.category1Id, ebook.value.category2Id]
       isAdd = false;
     };
 
@@ -251,8 +258,31 @@ export default defineComponent({
       });
     };
 
+    const level1 = ref();
+    /**
+     * 查询所有分类
+     */
+    const handleQueryCategory = () => {
+      loading.value = true;
+      axios.get("/category/all").then((response) => {
+        loading.value = false;
+
+        const data = response.data; //data = commonResp
+        if(data.success) {
+          const categorys = data.content;
+          console.log("原始数组：", categorys);
+
+          level1.value = [];
+          level1.value = Tool.array2Tree(categorys, 0);
+          console.log("树形结构：", level1.value);
+        } else{
+          message.error(data.message);
+        }
+      });
+    };
 
     onMounted(() => {
+      handleQueryCategory();
       handleQuery({
         page: 1,
         size: pagination.value.pageSize
@@ -275,7 +305,9 @@ export default defineComponent({
       modalVisible,
       modalLoading,
       handleModalOk,
-      handleDelete
+      handleDelete,
+      categoryIds,
+      level1,
     }
   }
 });
