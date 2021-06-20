@@ -302,7 +302,6 @@ export default defineComponent({
 
     onMounted(() => {
       handleQueryCategory();
-
     });
 
     return {
