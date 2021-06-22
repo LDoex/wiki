@@ -82,6 +82,9 @@
         <a-form-item label="顺序">
           <a-input v-model:value="doc.sort" />
         </a-form-item>
+        <a-form-item label="内容">
+          <div id="content"></div>
+        </a-form-item>
 
       </a-form>
     </a-modal>
@@ -91,16 +94,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import {message} from 'ant-design-vue';
+import {createVNode, defineComponent, onMounted, ref } from 'vue';
+import {message, Modal} from 'ant-design-vue';
 import axios from 'axios';
 import {Tool} from "@/util/tool";
 import {useRoute} from "vue-router";
+import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
+import E from "wangeditor";
 
 
 export default defineComponent({
   name: 'AdminDoc',
   setup() {
+    const editor = new E("#content");
+
     //获取当前路由
     const route = useRoute();
     console.log("路由：", route);
@@ -110,7 +117,7 @@ export default defineComponent({
     console.log("route.fullPath：", route.fullPath);
     console.log("route.name：", route.name);
     //meta是自定义变量
-   console.log("route.meta：", route.meta);
+    console.log("route.meta：", route.meta);
 
     console.log()
     const param = ref();
@@ -241,7 +248,8 @@ export default defineComponent({
       }
     };
 
-    const ids: Array<string> = [];
+    const deleteIds: Array<string> = [];
+    const deleteNames: Array<string> = [];
     /**
      * 递归将某节点及其子孙节点全部存进ids
      * */
@@ -253,7 +261,8 @@ export default defineComponent({
           //如果当前节点就是目标节点
           console.log("disabled", node);
           //将目标节点放入ids
-          ids.push(id);
+          deleteIds.push(id);
+          deleteNames.push(node.name)
 
           //遍历所有子节点，将所有子节点全部放入ids
           const children = node.children;
@@ -279,6 +288,10 @@ export default defineComponent({
      */
     const edit = (record: any)=>{
       modalVisible.value = true;
+      setTimeout(()=>{
+        editor.create();
+      }, 100)
+
       doc.value = Tool.copy(record);
 
       //不能选择当前节点及其所有子孙节点作为父节点，否则树会断开
@@ -296,6 +309,9 @@ export default defineComponent({
      */
     const add = ()=>{
       modalVisible.value = true;
+      setTimeout(()=>{
+        editor.create();
+      }, 100)
       doc.value = {
         ebookId: route.query.ebookId
       };
@@ -306,16 +322,32 @@ export default defineComponent({
     };
 
     const handleDelete = (id: number)=>{
+      // 清空数组，否则多次删除时，数组会一直增加
+      deleteIds.length = 0;
+      deleteNames.length = 0;
       getDeleteIds(level1.value, id);
-      axios.delete("/doc/delete/" + ids.join(",")).then((response) => {
+      Modal.confirm({
+        title: '确定删除文档?',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: createVNode('div', { style: 'color:red;' }, '这会将'+deleteNames+'全部删除'),
+        onOk() {
+          // console.log('OK');
+          axios.delete("/doc/delete/" + deleteIds.join(",")).then((response) => {
 
-        const data = response.data; //data = commonResp
-        if(data.success){
-          message.success('删除成功');
-          //重新加载列表
-          handleQuery();
-        }
+            const data = response.data; //data = commonResp
+            if(data.success){
+              message.success('删除成功');
+              //重新加载列表
+              handleQuery();
+            }
+          });
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+        class: 'test',
       });
+
     };
 
 
