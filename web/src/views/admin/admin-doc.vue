@@ -95,11 +95,24 @@ import { defineComponent, onMounted, ref } from 'vue';
 import {message} from 'ant-design-vue';
 import axios from 'axios';
 import {Tool} from "@/util/tool";
+import {useRoute} from "vue-router";
 
 
 export default defineComponent({
   name: 'AdminDoc',
   setup() {
+    //获取当前路由
+    const route = useRoute();
+    console.log("路由：", route);
+    console.log("route.path：", route.path);
+    console.log("route.query：", route.query);
+    console.log("route.param：", route.params);
+    console.log("route.fullPath：", route.fullPath);
+    console.log("route.name：", route.name);
+    //meta是自定义变量
+   console.log("route.meta：", route.meta);
+
+    console.log()
     const param = ref();
     param.value = {};
     const docs = ref();
@@ -251,7 +264,9 @@ export default defineComponent({
      */
     const add = ()=>{
       modalVisible.value = true;
-      doc.value = {};
+      doc.value = {
+        ebookId: route.query.ebookId
+      };
       treeSelectData.value = Tool.copy(level1.value);
       //为选择树添加一个”无“,unshift方法是往数组头部插入一个元素
       treeSelectData.value.unshift({id: 0, name: '无'});
