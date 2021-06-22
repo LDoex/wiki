@@ -75,6 +75,7 @@ public class DocService {
     public PageResp<DocQueryResp> home(DocQueryReq req) {
 
         DocExample docExample = new DocExample();
+        docExample.setOrderByClause("sort asc");
         DocExample.Criteria criteria = docExample.createCriteria();
         //动态sql，name不为空才进行模糊匹配
 
@@ -119,6 +120,14 @@ public class DocService {
 
     public void delete(Long id){
         docMapper.deleteByPrimaryKey(id);
+    }
+
+    public void delete(List<String> ids){
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
+        docMapper.deleteByExample(docExample);
+
     }
 
 }
