@@ -304,9 +304,10 @@ export default defineComponent({
      * @param record
      */
     const edit = (record: any)=>{
-      modalVisible.value = true;
 
+      modalVisible.value = true;
       doc.value = Tool.copy(record);
+      handleQueryContent();
 
       //不能选择当前节点及其所有子孙节点作为父节点，否则树会断开
       treeSelectData.value = Tool.copy(level1.value);
@@ -316,6 +317,22 @@ export default defineComponent({
       treeSelectData.value.unshift({id: 0, name: '无'});
       isAdd = false;
     };
+
+    /**
+     * 内容查询 handleQuery相当于一个对象实例
+     **/
+    const handleQueryContent = () => {
+      axios.get("/doc/find-content/"+doc.value.id).then((response) => {
+        const data = response.data;
+
+        if(data.success){
+          editor.txt.html(data.content);
+        } else{
+          message.error(data.message);
+        }
+      });
+    };
+
 
     /**
      * 新增
