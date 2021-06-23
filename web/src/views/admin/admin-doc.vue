@@ -305,6 +305,8 @@ export default defineComponent({
      */
     const edit = (record: any)=>{
 
+      //清空富文本框
+      editor.txt.html("");
       modalVisible.value = true;
       doc.value = Tool.copy(record);
       handleQueryContent();
@@ -339,6 +341,8 @@ export default defineComponent({
      * @param record
      */
     const add = ()=>{
+      //清空富文本框
+      editor.txt.html("");
       modalVisible.value = true;
       doc.value = {
         ebookId: route.query.ebookId
