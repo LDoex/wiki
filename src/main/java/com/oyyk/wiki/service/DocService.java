@@ -2,8 +2,10 @@ package com.oyyk.wiki.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.oyyk.wiki.domain.Content;
 import com.oyyk.wiki.domain.Doc;
 import com.oyyk.wiki.domain.DocExample;
+import com.oyyk.wiki.mapper.ContentMapper;
 import com.oyyk.wiki.mapper.DocMapper;
 import com.oyyk.wiki.req.DocQueryReq;
 import com.oyyk.wiki.req.DocSaveReq;
@@ -26,6 +28,9 @@ public class DocService {
 
     @Resource
     private DocMapper docMapper;
+
+    @Resource
+    private ContentMapper contentMapper;
 
     @Resource
     private SnowFlake snowFlake;
@@ -108,13 +113,23 @@ public class DocService {
      */
     public void save(DocSaveReq req){
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if(ObjectUtils.isEmpty(req.getId())){
-            //新增
+            //新增内容到doc表
             doc.setId(snowFlake.nextId());
             docMapper.insert(doc);
+            //新增内容到content表
+            content.setId(doc.getId());
+            contentMapper.insert(content);
         } else {
             //更新
             docMapper.updateByPrimaryKey(doc);
+
+            //更新content,要用带大字段的方法
+            int count = contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            if(count == 0){
+                contentMapper.insert(content);
+            }
         }
     }
 
