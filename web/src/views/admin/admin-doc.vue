@@ -233,7 +233,9 @@ export default defineComponent({
     // ------表单-------
 
     const doc = ref();
-    doc.value = {};
+    doc.value = {
+      ebookId: route.query.ebookId
+    };
     let isAdd = false;
     const modalVisible = ref(false);
     const modalLoading = ref(false);
@@ -370,9 +372,7 @@ export default defineComponent({
       //清空富文本框
       editor.txt.html("");
       modalVisible.value = true;
-      doc.value = {
-        ebookId: route.query.ebookId
-      };
+
       treeSelectData.value = Tool.copy(level1.value);
       //为选择树添加一个”无“,unshift方法是往数组头部插入一个元素
       treeSelectData.value.unshift({id: 0, name: '无'});
