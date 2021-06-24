@@ -135,7 +135,7 @@ export default defineComponent({
         params: {
           page: params.page,
           size: params.size,
-          name: param.value.loginName
+          loginName: param.value.loginName
         }
       }).then((response) => {
         loading.value = false;
