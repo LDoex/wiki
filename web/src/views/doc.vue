@@ -37,7 +37,7 @@ export default defineComponent({
     //获取当前路由
     const route = useRoute();
 
-    console.log()
+    console.log("routeId:", route.query.ebookId)
     const docs = ref();
 
     /**
@@ -59,7 +59,7 @@ export default defineComponent({
      * 数据查询 handleQuery相当于一个对象实例
      **/
     const handleQuery = () => {
-      axios.get("/doc/all").then((response) => {
+      axios.get("/doc/all/" + route.query.ebookId).then((response) => {
         const data = response.data;
 
         if(data.success){
