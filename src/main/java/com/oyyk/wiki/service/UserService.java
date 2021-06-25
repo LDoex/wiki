@@ -8,6 +8,7 @@ import com.oyyk.wiki.exception.BusinessException;
 import com.oyyk.wiki.exception.BusinessExceptionCode;
 import com.oyyk.wiki.mapper.UserMapper;
 import com.oyyk.wiki.req.UserQueryReq;
+import com.oyyk.wiki.req.UserResetPasswordReq;
 import com.oyyk.wiki.req.UserSaveReq;
 import com.oyyk.wiki.resp.PageResp;
 import com.oyyk.wiki.resp.UserQueryResp;
@@ -120,6 +121,14 @@ public class UserService {
             //Selective只更新有值的字段，将LoginName置空后就不会被修改
             userMapper.updateByPrimaryKeySelective(user);
         }
+    }
+    /**
+     * 重置密码
+     * @param req
+     */
+    public void resetPassword(UserResetPasswordReq req){
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     public void delete(Long id){

@@ -2,6 +2,7 @@ package com.oyyk.wiki.controller;
 
 
 import com.oyyk.wiki.req.UserQueryReq;
+import com.oyyk.wiki.req.UserResetPasswordReq;
 import com.oyyk.wiki.req.UserSaveReq;
 import com.oyyk.wiki.resp.CommonResp;
 import com.oyyk.wiki.resp.PageResp;
@@ -41,6 +42,14 @@ public class UserController {
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp resp = new CommonResp<>();
         userService.save(req);
+        return resp;
+    }
+
+    @PostMapping("/reset-password")
+    public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req){
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp resp = new CommonResp<>();
+        userService.resetPassword(req);
         return resp;
     }
 
