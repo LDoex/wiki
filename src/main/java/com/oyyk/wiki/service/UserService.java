@@ -115,7 +115,9 @@ public class UserService {
             }
         } else {
             // 更新
-            userMapper.updateByPrimaryKey(user);
+            user.setLoginName(null);
+            //Selective只更新有值的字段，将LoginName置空后就不会被修改
+            userMapper.updateByPrimaryKeySelective(user);
         }
     }
 
