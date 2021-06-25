@@ -33,11 +33,15 @@
         @ok="login">
       <a-form :model="loginUser" :label-col="{span:6}" :wrapper-col="{ span: 18 }">
         <a-form-item label="登录名">
-          <a-input v-model:value="loginUser.loginName" />
+          <a-input v-model:value="loginUser.loginName">
+            <template #prefix><UserOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+          </a-input>
         </a-form-item>
 
         <a-form-item label="密码">
-          <a-input v-model:value="loginUser.password" />
+          <a-input v-model:value="loginUser.password" type="password">
+            <template #prefix><LockOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+          </a-input>
         </a-form-item>
 
       </a-form>
@@ -51,9 +55,17 @@ import validate = WebAssembly.validate;
 import _default from "ant-design-vue/es/color-picker";
 import axios from "axios";
 import {message} from "ant-design-vue";
+import {LockOutlined, UserOutlined} from "@ant-design/icons-vue";
+
+declare let hexMd5: any;
+declare let KEY: any;
 
 export default defineComponent({
   name: 'the-header',
+  components: {
+    UserOutlined,
+    LockOutlined,
+  },
   setup(){
     const loginUser = ref({
       loginName: "test",
@@ -65,26 +77,26 @@ export default defineComponent({
 
     const showLoginModal = () => {
       loginModalVisible.value = true;
+      loginUser.value.loginName = "";
+      loginUser.value.password = "";
     };
 
     //登录
     const login = () => {
       console.log("开始登录");
+      loginModalLoading.value = true;
+      loginUser.value.password = hexMd5(loginUser.value.password + KEY);
+      axios.post("/user/login", loginUser.value).then((response) => {
+        loginModalLoading.value = false;
+        const data = response.data;
+        if(data.success){
+          loginModalVisible.value = false;
+          message.success('登录成功');
+        } else{
+          message.error(data.message);
+        }
+      });
     };
-
-    // const handleLoginModalOk = () => {
-    //   loginModalLoading.value = true;
-    //   axios.post("/login", loginUser.value).then((response) => {
-    //     loginModalLoading.value = false;
-    //     const data = response.data;
-    //     if(data.success){
-    //       loginModalVisible.value = false;
-    //       message.success('登录成功');
-    //     } else{
-    //       message.error(data.message);
-    //     }
-    //   });
-    // };
 
     return{
       loginModalVisible,
