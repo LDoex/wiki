@@ -1,3 +1,173 @@
+GET http://localhost:8880/redis/get/63627010978746368
+Accept: application/json
+
+<> 2021-06-25T215123.200.json
+
+###
+
+GET http://localhost:8880/redis/get/1
+Accept: application/json
+
+<> 2021-06-25T214457.200.json
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T214453.200.json
+
+###
+
+GET http://localhost:8880/redis/get/1
+Accept: application/json
+
+<> 2021-06-25T213930.404.json
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T213856.200.json
+
+###
+
+GET http://localhost:8880/redis/get/63623816747814912
+Accept: application/json
+
+<> 2021-06-25T213838.404.json
+
+###
+
+GET http://localhost:8880/redis/get/1
+Accept: application/json
+
+<> 2021-06-25T213711.404.json
+
+###
+
+GET http://localhost:8880/redis/get/1
+Accept: application/json
+
+<> 2021-06-25T213624.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63622040577511424
+Accept: application/json
+
+<> 2021-06-25T213343.404.json
+
+###
+
+GET http://localhost:8880/redis/get/1
+Accept: application/json
+
+<> 2021-06-25T213315.404.json
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T213258.200.json
+
+###
+
+GET http://localhost:8880/redis/get/63622040577511424
+Accept: application/json
+
+<> 2021-06-25T213220.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63622040577511424
+Accept: application/json
+
+<> 2021-06-25T213133.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63621183085613056
+Accept: application/json
+
+<> 2021-06-25T213055.404.json
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T213047.200.json
+
+###
+
+POST http://localhost:8880/hello/post
+Content-Type: application/x-www-form-urlencoded
+
+name=Test
+
+<> 2021-06-25T213030.200.txt
+
+###
+
+GET http://localhost:8880/redis/get/63621183085613056
+Accept: application/json
+
+<> 2021-06-25T212930.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63621183085613056
+Accept: application/json
+
+<> 2021-06-25T212912.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63615521920258048
+Accept: application/json
+
+<> 2021-06-25T212652.404.json
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T212639.404.json
+
+###
+
+GET http://localhost:8880/redis/get/63615521920258048
+Accept: application/json
+
+<> 2021-06-25T212619.404.json
+
+###
+
+GET http://localhost:8880/test/redis/set/1/test123
+Accept: application/json
+
+<> 2021-06-25T212554.404.json
+
+###
+
+GET http://localhost:8880/test/redis/set/123/test
+Accept: application/json
+
+<> 2021-06-25T212309.404.json
+
+###
+
+GET http://localhost:8880/test/redis/set/123/test
+Accept: application/json
+
+<> 2021-06-25T212159.404.json
+
+###
+
 GET http://localhost:8880/ebook/list?size=1001
 
 <> 2021-06-17T144708.200.json
@@ -151,148 +321,6 @@ GET http://localhost:8880/ebook/list
 GET http://localhost:8880/ebook/list
 
 <> 2021-06-04T150456.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-06-04T150329.500.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-06-04T150314.500.json
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-05-17T142048.200.json
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-05-17T141957.200.json
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-05-17T140951.200.json
-
-###
-
-GET http://localhost:8880/test/list
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-05-17T120243.200.json
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-05-17T092439.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T214132.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T111117.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T111041.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T110944.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T110929.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-08T110857.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-07T215705.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Spring
-
-<> 2021-04-07T214631.200.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=Java
-
-<> 2021-04-07T214548.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-03-30T220440.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-03-30T215538.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-03-30T214614.200.json
-
-###
-
-GET http://localhost:8880/demo/list
-
-<> 2021-03-30T212946.200.json
-
-###
-
-GET http://localhost:8880/demo/list1
-
-<> 2021-03-30T212924.200.json
-
-###
-
-GET http://localhost:8880/demo/list
-
-<> 2021-03-30T211708.200.json
-
-###
-
-GET http://localhost:8880/test/list
-
-<> 2021-03-30T203838.200.json
 
 ###
 

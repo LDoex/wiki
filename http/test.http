@@ -21,3 +21,15 @@ name=Test
 ###
 
 GET http://localhost:8880/test/list
+
+###
+
+GET http://localhost:8880/redis/set/1/test123
+Accept: application/json
+
+###
+
+GET http://localhost:8880/redis/get/63627010978746368
+Accept: application/json
+
+###
