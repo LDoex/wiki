@@ -7,10 +7,12 @@ import com.oyyk.wiki.domain.UserExample;
 import com.oyyk.wiki.exception.BusinessException;
 import com.oyyk.wiki.exception.BusinessExceptionCode;
 import com.oyyk.wiki.mapper.UserMapper;
+import com.oyyk.wiki.req.UserLoginReq;
 import com.oyyk.wiki.req.UserQueryReq;
 import com.oyyk.wiki.req.UserResetPasswordReq;
 import com.oyyk.wiki.req.UserSaveReq;
 import com.oyyk.wiki.resp.PageResp;
+import com.oyyk.wiki.resp.UserLoginResp;
 import com.oyyk.wiki.resp.UserQueryResp;
 import com.oyyk.wiki.util.CopyUtil;
 import com.oyyk.wiki.util.SnowFlake;
@@ -129,6 +131,29 @@ public class UserService {
     public void resetPassword(UserResetPasswordReq req){
         User user = CopyUtil.copy(req, User.class);
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    /**
+     * 登录
+     * @param req
+     */
+    public UserLoginResp login(UserLoginReq req){
+        User userDb = selectByLoginName(req.getLoginName());
+        if(ObjectUtils.isEmpty(userDb)){
+            LOG.info("用户名不存在,{}", req.getLoginName());
+            //用户名不存在
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else{
+            if(userDb.getPassword().equals(req.getPassword())){
+                //登录成功
+                UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
+                return userLoginResp;
+            } else{
+                LOG.info("密码错误,输入密码：{}，数据库密码：{}", req.getPassword(), userDb.getPassword());
+                //密码不对
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
     }
 
     public void delete(Long id){
