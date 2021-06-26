@@ -1,3 +1,33 @@
+GET http://localhost:8880/redis/get/63841810576969728
+Accept: application/json
+
+<> 2021-06-26T145204.200.json
+
+###
+
+GET http://localhost:8880/redis/get/63841810576969728
+Accept: application/json
+
+<> 2021-06-26T144413.200.json
+
+###
+
+POST http://localhost:8880/ebook/save
+Content-Type: application/json
+
+{}
+
+###
+
+POST http://localhost:8880/ebook/save
+Content-Type: application/json
+
+{}
+
+<> 2021-06-26T143826.200.json
+
+###
+
 GET http://localhost:8880/redis/get/63627010978746368
 Accept: application/json
 
@@ -297,30 +327,6 @@ GET http://localhost:8880/ebook/list
 GET http://localhost:8880/ebook/list
 
 <> 2021-06-04T151211.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-06-04T150819.500.json
-
-###
-
-GET http://localhost:8880/ebook/list?name=spring
-
-<> 2021-06-04T150513.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-06-04T150504.200.json
-
-###
-
-GET http://localhost:8880/ebook/list
-
-<> 2021-06-04T150456.200.json
 
 ###
 
