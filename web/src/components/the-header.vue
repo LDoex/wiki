@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
+import {computed, defineComponent, ref} from 'vue';
 import validate = WebAssembly.validate;
 import _default from "ant-design-vue/es/color-picker";
 import axios from "axios";
@@ -72,8 +72,9 @@ export default defineComponent({
   },
   setup(){
     //登录后保存
-    const user = ref();
-    user.value = {};
+    // const user = ref();
+    // user.value = {};
+    const user = computed(() => {return store.state.user;});
 
     //用来登录
     const loginUser = ref({
@@ -101,8 +102,10 @@ export default defineComponent({
         if(data.success){
           loginModalVisible.value = false;
           message.success('登录成功');
-          user.value = data.content;
+          // user.value = data.content;
+          console.log("调用前：", user.value);
           store.commit("setUser", user.value);
+          console.log("调用后", user.value);
         } else{
           message.error(data.message);
         }
