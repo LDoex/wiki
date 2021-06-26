@@ -163,4 +163,9 @@ public class DocService {
 
     }
 
+    public void vote(Long id){
+        //文档阅读数+1
+        docMapperCust.increaseViewCount(id);
+    }
+
 }
