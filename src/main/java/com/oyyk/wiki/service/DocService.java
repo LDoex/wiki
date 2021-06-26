@@ -7,6 +7,7 @@ import com.oyyk.wiki.domain.Doc;
 import com.oyyk.wiki.domain.DocExample;
 import com.oyyk.wiki.mapper.ContentMapper;
 import com.oyyk.wiki.mapper.DocMapper;
+import com.oyyk.wiki.mapper.DocMapperCust;
 import com.oyyk.wiki.req.DocQueryReq;
 import com.oyyk.wiki.req.DocSaveReq;
 import com.oyyk.wiki.resp.DocQueryResp;
@@ -25,6 +26,9 @@ import java.util.List;
 @Service
 public class DocService {
     private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
+
+    @Resource
+    private DocMapperCust docMapperCust;
 
     @Resource
     private DocMapper docMapper;
@@ -118,6 +122,8 @@ public class DocService {
         if(ObjectUtils.isEmpty(req.getId())){
             //新增内容到doc表
             doc.setId(snowFlake.nextId());
+            doc.setViewCount(0);
+            doc.setVoteCount(0);
             docMapper.insert(doc);
             //新增内容到content表
             content.setId(doc.getId());
@@ -140,6 +146,8 @@ public class DocService {
 
     public String findContent(Long id){
        Content content = contentMapper.selectByPrimaryKey(id);
+       //文档阅读数+1
+       docMapperCust.increaseViewCount(id);
        if(ObjectUtils.isEmpty(content)){
            return "";
        } else {
