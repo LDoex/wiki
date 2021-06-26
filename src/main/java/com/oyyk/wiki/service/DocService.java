@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.oyyk.wiki.domain.Content;
 import com.oyyk.wiki.domain.Doc;
 import com.oyyk.wiki.domain.DocExample;
+import com.oyyk.wiki.exception.BusinessException;
+import com.oyyk.wiki.exception.BusinessExceptionCode;
 import com.oyyk.wiki.mapper.ContentMapper;
 import com.oyyk.wiki.mapper.DocMapper;
 import com.oyyk.wiki.mapper.DocMapperCust;
@@ -13,6 +15,8 @@ import com.oyyk.wiki.req.DocSaveReq;
 import com.oyyk.wiki.resp.DocQueryResp;
 import com.oyyk.wiki.resp.PageResp;
 import com.oyyk.wiki.util.CopyUtil;
+import com.oyyk.wiki.util.RedisUtil;
+import com.oyyk.wiki.util.RequestContext;
 import com.oyyk.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +42,9 @@ public class DocService {
 
     @Resource
     private SnowFlake snowFlake;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
 
@@ -165,7 +172,13 @@ public class DocService {
 
     public void vote(Long id){
         //文档阅读数+1
-        docMapperCust.increaseViewCount(id);
+//        docMapperCust.increaseViewCount(id);
+        String ip = RequestContext.getRemoteAddr();
+        if(redisUtil.validateRepeat("DOC_VOTE" + id + "_" + ip, 3600*24)){
+            docMapperCust.increaseViewCount(id);
+        } else{
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
     }
 
 }
