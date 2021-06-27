@@ -24,6 +24,8 @@ export class Tool {
     public static copy (obj: object) {
         if (Tool.isNotEmpty(obj)) {
             return JSON.parse(JSON.stringify(obj));
+        } else{
+            return [];
         }
     }
 
