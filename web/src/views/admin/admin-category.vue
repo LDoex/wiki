@@ -70,7 +70,6 @@
           <a-select
               v-model:value="category.parent"
               ref="select"
-              disabled="category.parent === 0"
           >
             <a-select-option value="0">无</a-select-option>
 
