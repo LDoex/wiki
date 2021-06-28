@@ -21,6 +21,7 @@ import com.oyyk.wiki.util.SnowFlake;
 import com.oyyk.wiki.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -33,7 +34,7 @@ public class DocService {
     private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
 
     @Resource
-    private WebSocketServer webSocketServer;
+    private WsService wsService;
 
     @Resource
     private DocMapperCust docMapperCust;
@@ -187,11 +188,13 @@ public class DocService {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
 
+        //推送消息
         // 推送消息
         Doc docDb = docMapper.selectByPrimaryKey(id);
-        webSocketServer.sendInfo('【'+docDb.getName()+ "】被点赞");
+        wsService.sendInfo('【'+docDb.getName()+ "】被点赞");
 
     }
+
 
     public void updateEbookInfo(){
         docMapperCust.updateEbookInfo();
