@@ -51,6 +51,10 @@ public class DocService {
     @Resource
     private RedisUtil redisUtil;
 
+    // @Resource
+    // private RocketMQTemplate rocketMQTemplate;
+
+
     public PageResp<DocQueryResp> list(DocQueryReq req) {
 
         DocExample docExample = new DocExample();
@@ -193,6 +197,8 @@ public class DocService {
         Doc docDb = docMapper.selectByPrimaryKey(id);
         String logId = MDC.get("LOG_ID");
         wsService.sendInfo('【'+docDb.getName()+ "】被点赞", logId);
+        //使用rocketMQ
+        // rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
 
     }
 
