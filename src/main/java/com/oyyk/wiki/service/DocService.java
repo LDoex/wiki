@@ -18,6 +18,7 @@ import com.oyyk.wiki.util.CopyUtil;
 import com.oyyk.wiki.util.RedisUtil;
 import com.oyyk.wiki.util.RequestContext;
 import com.oyyk.wiki.util.SnowFlake;
+import com.oyyk.wiki.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ import java.util.List;
 @Service
 public class DocService {
     private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
+
+    @Resource
+    private WebSocketServer webSocketServer;
 
     @Resource
     private DocMapperCust docMapperCust;
@@ -170,15 +174,23 @@ public class DocService {
 
     }
 
+    /**
+     * 点赞
+     * @param id
+     */
     public void vote(Long id){
         //文档阅读数+1
-//        docMapperCust.increaseViewCount(id);
         String ip = RequestContext.getRemoteAddr();
         if(redisUtil.validateRepeat("DOC_VOTE" + id + "_" + ip, 3600*24)){
             docMapperCust.increaseVoteCount(id);
         } else{
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+
+        // 推送消息
+        Doc docDb = docMapper.selectByPrimaryKey(id);
+        webSocketServer.sendInfo('【'+docDb.getName()+ "】被点赞");
+
     }
 
     public void updateEbookInfo(){
