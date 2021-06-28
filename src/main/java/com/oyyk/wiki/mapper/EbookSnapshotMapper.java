@@ -2,8 +2,9 @@ package com.oyyk.wiki.mapper;
 
 import com.oyyk.wiki.domain.EbookSnapshot;
 import com.oyyk.wiki.domain.EbookSnapshotExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EbookSnapshotMapper {
     long countByExample(EbookSnapshotExample example);
